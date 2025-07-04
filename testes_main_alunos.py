@@ -2,10 +2,19 @@ import unittest
 import math
 from main import calculadora, calculadora_v2, calculadora_v3, calculadora_v4
 
+# Função auxiliar para aplicar o mesmo teste a todas as versões da calculadora
+def todas_versoes(a, b, op):
+    return [
+        calculadora(a, b, op),
+        calculadora_v2(a, b, op),
+        calculadora_v3(a, b, op),
+        calculadora_v4(a, b, op)
+    ]
+
 
 class TestCalculadora(unittest.TestCase):
 
-   def test_operacoes_basicas(self):
+    def test_operacoes_basicas(self):
         # Teste operações básicas de cada operador + - * / % ^ para todas as versões
         for resultado in todas_versoes(2, 3, '+'):
             self.assertEqual(resultado, 5)
@@ -25,7 +34,7 @@ class TestCalculadora(unittest.TestCase):
         for resultado in todas_versoes(2, 3, '^'):
             self.assertEqual(resultado, 8)
 
-     def test_divisao_por_zero(self):
+    def test_divisao_por_zero(self):
         # Teste divisão por zero e módulo por zero para todas as versões
         for resultado in todas_versoes(5, 0, '/'):
             self.assertTrue(math.isnan(resultado))
@@ -33,7 +42,7 @@ class TestCalculadora(unittest.TestCase):
         for resultado in todas_versoes(5, 0, '%'):
             self.assertTrue(math.isnan(resultado))
 
-      def test_operadores_invalidos(self):
+    def test_operadores_invalidos(self):
         # Teste operador inválido - fazer três testes para todas as versões
         for resultado in todas_versoes(2, 3, '$'):
             self.assertTrue(math.isnan(resultado))
@@ -77,8 +86,7 @@ class TestCalculadora(unittest.TestCase):
             self.assertEqual(resultado, 0)
 
 
-
 if __name__ == '__main__':
     unittest.main()
 
-# para correr os testes: python -m unittest -v testes_main_alunos.py
+# Para correr os testes: python -m unittest -v testes_main_alunos.py
