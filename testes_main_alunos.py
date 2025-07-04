@@ -33,41 +33,49 @@ class TestCalculadora(unittest.TestCase):
         for resultado in todas_versoes(5, 0, '%'):
             self.assertTrue(math.isnan(resultado))
 
-    def teste_v3_operacoes(self):
-        # Teste operações básicas de cada operador + - * / % ^
-        self.assertEqual(calculadora_v3(2, 3, '+'), 5)
-
-    def teste_v4_operacoes(self):
-        # Teste operações básicas de cada operador + - * / % ^
-        self.assertEqual(calculadora_v4(2, 3, '+'), 5)
-
-    def teste_operacoes_diversas(self):
-        # Teste divisão por zero operador para todas versões / %
-        self.assertTrue(math.isnan(calculadora(5, 0, '/')))
-        self.assertTrue(math.isnan(calculadora(5, 0, '%')))
-
+      def test_operadores_invalidos(self):
         # Teste operador inválido - fazer três testes para todas as versões
-        self.assertTrue(math.isnan(calculadora(2, 3, '$')))
-        self.assertTrue(math.isnan(calculadora(2, 5, '#')))
-        self.assertTrue(math.isnan(calculadora(0, 2, 'qwe')))
+        for resultado in todas_versoes(2, 3, '$'):
+            self.assertTrue(math.isnan(resultado))
 
-        # Teste números de virgula flutuante - fazer três testes para todas as versões
-        self.assertAlmostEqual(calculadora(2.5, 1.5, '+'), 4.0)
-        self.assertAlmostEqual(calculadora(4.5, 1.5, '-'), 3.0)
-        self.assertAlmostEqual(calculadora(5.5, 1.5, '*'), 8.25)
+        for resultado in todas_versoes(2, 5, '#'):
+            self.assertTrue(math.isnan(resultado))
 
+        for resultado in todas_versoes(0, 2, 'qwe'):
+            self.assertTrue(math.isnan(resultado))
+
+    def test_virgula_flutuante(self):
+        # Teste números de vírgula flutuante - fazer três testes para todas as versões
+        for resultado in todas_versoes(2.5, 1.5, '+'):
+            self.assertAlmostEqual(resultado, 4.0)
+
+        for resultado in todas_versoes(4.5, 1.5, '-'):
+            self.assertAlmostEqual(resultado, 3.0)
+
+        for resultado in todas_versoes(5.5, 1.5, '*'):
+            self.assertAlmostEqual(resultado, 8.25)
+
+    def test_numeros_negativos(self):
         # Teste números negativos - fazer 3 testes para todas as versões
-        self.assertEqual(calculadora(-2, 3, '*'), -6)
+        for resultado in todas_versoes(-2, 3, '*'):
+            self.assertEqual(resultado, -6)
 
         # Teste números negativos com divisão e módulo, testar para todas as versões
-        self.assertTrue(calculadora(-6, 3, '/'), -2.0)
-        self.assertTrue(calculadora(-7, 3, '%'), 2.0)
+        for resultado in todas_versoes(-6, 3, '/'):
+            self.assertEqual(resultado, -2.0)
 
+        for resultado in todas_versoes(-7, 3, '%'):
+            self.assertEqual(resultado, 2.0)
+
+    def test_exponenciacao_negativos_e_zero(self):
         # Teste números negativos com exponenciação, testar para todas as versões
-        self.assertEqual(calculadora(-2, 3, '^'), -8)
+        for resultado in todas_versoes(-2, 3, '^'):
+            self.assertEqual(resultado, -8)
 
         # Teste números negativos com exponenciação de zero, testar para todas as versões
-        self.assertEqual(calculadora(0, 3, '^'), 0)
+        for resultado in todas_versoes(0, 3, '^'):
+            self.assertEqual(resultado, 0)
+
 
 
 if __name__ == '__main__':
